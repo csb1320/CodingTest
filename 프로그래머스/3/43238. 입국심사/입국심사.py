@@ -1,31 +1,16 @@
 def solution(n, times):
-    answer = 0
-    left = 1
-    right = max(times) * n
-    
+    left, right = 1, max(times) * n  # 최소 시간, 최대 시간 설정
+    answer = right
+
     while left <= right:
-        mid = (left+ right) // 2
-        people = 0
-        
-        for time in times:
-            people += mid // time
-            if people >= n:
-                break
-        
-        if people >= n:
+        mid = (left + right) // 2
+        total = sum(mid // time for time in times)  # 주어진 시간 동안 심사 가능한 총 인원 수 계산
+
+        if total >= n:  # 모든 사람이 심사를 받을 수 있다면
             answer = mid
-            right = mid - 1
-        elif people < n:
-            left = mid + 1
-            
+            right = mid - 1  # 더 작은 시간으로 탐색
+        else:  # 심사를 받기 부족한 경우
+            left = mid + 1  # 더 큰 시간으로 탐색
+
     return answer
 
-
-
-    # right는 가장 비효율적으로 심사했을 때 걸리는 시간
-    # 가장 긴 심사시간이 소요되는 심사관에게 n 명 모두 심사받는 경우이다.
-
-            # people 은 모든 심사관들이 mid분 동안 심사한 사람의 수
-                    # 모든 심사관을 거치지 않아도 mid분 동안 n명 이상의 심사를 할 수 있다면 반복문을 나간다.
-        # 심사한 사람의 수가 심사 받아야할 사람의 수(n)보다 많거나 같은 경우
-        # 심사한 사람의 수가 심사 받아야할 사람의 수(n)보다 적은 경우
